@@ -51,9 +51,6 @@ class ProductsController extends Controller
         // $product->price = $request->price;
         // $product->quantity = $request->quantity;
         // $product->save();
-        ddd($reImage);
-        ddd($request["img_product"]);
-        ddd(array_merge($request->only('title', 'description', 'price', "quantity", "img_product")));
         product::create(array_merge(
             $request
                 ->only('title', 'description', 'price', "quantity", "img_product"),
