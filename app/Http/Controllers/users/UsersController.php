@@ -13,19 +13,19 @@ class UsersController extends Controller
 {
     /**
      * Display all users
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::oldest()->paginate(10);
 
         return view('users.index', compact('users'));
     }
 
     /**
      * Show form for creating user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -35,10 +35,10 @@ class UsersController extends Controller
 
     /**
      * Store a newly created user
-     * 
+     *
      * @param User $user
      * @param StoreUserRequest $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(User $user, StoreUserRequest $request)
@@ -55,9 +55,9 @@ class UsersController extends Controller
 
     /**
      * Show user data
-     * 
+     *
      * @param User $user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -69,9 +69,9 @@ class UsersController extends Controller
 
     /**
      * Edit user data
-     * 
+     *
      * @param User $user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -85,10 +85,10 @@ class UsersController extends Controller
 
     /**
      * Update user data
-     * 
+     *
      * @param User $user
      * @param UpdateUserRequest $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(User $user, UpdateUserRequest $request)
@@ -103,9 +103,9 @@ class UsersController extends Controller
 
     /**
      * Delete user data
-     * 
+     *
      * @param User $user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
