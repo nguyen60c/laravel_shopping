@@ -23,8 +23,7 @@
 
             {{-- Bugs --}}
             <div>
-                {{ $product->img_product }}
-                <img src="{{ asset('imgs//products//' . $product->img_product . '.png') }}" alt="">
+                <img src="{{ asset('imgs/products/' . $product->img_product) }}" alt="">
             </div>
             {{-- end Bugs --}}
 

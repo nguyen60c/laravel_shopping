@@ -34,30 +34,24 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        $product = new Product();
         $image = $request->file("img_product");
         $reImage = time() . "." . $image->getClientOriginalExtension();
         $dest = public_path("\imgs\products");
         $image->move($dest, $reImage);
-        $request["img_product"] = $reImage;
-        // $product = new Product();
-        // $product->img_product = $request->img_product;
-        // $product->title = $request->title;
-        // $product->description = $request->description;
-        // $product->price = $request->price;
-        // $product->quantity = $request->quantity;
-        // $product->save();
-        product::create(array_merge(
-            $request
-                ->only('title', 'description', 'price', "quantity", "img_product"),
-            [
-                'user_id' => auth()->id()
-            ]
-        ));
+
+        $product->img_product = $reImage;
+        $product->user_id = auth()->id();
+        $product->title = $request->title;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->save();
 
         return redirect()->route('products.index')
             ->withSuccess(__('product created successfully.'));
@@ -66,7 +60,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\product  $product
+     * @param \App\Models\product $product
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
@@ -79,7 +73,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\product  $product
+     * @param \App\Models\product $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
@@ -92,8 +86,8 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\product  $product
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\product $product
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
@@ -107,7 +101,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\product  $product
+     * @param \App\Models\product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
@@ -125,13 +119,14 @@ class ProductsController extends Controller
         return view('selling.index', compact('products'));
     }
 
-    public function showDetailsProduct(Product $product){
+    public function showDetailsProduct(Product $product)
+    {
         return view("selling.show", [
             'product' => $product
         ]);
     }
 
-    public function buyProducts(Product $product,User $user)
+    public function buyProducts(Product $product, User $user)
     {
         if ($product->quantity > 0) {
             $product->quantity = ($product->quantity - 1);
