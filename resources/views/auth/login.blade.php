@@ -19,7 +19,7 @@
                         @include('layouts.partials.messages')
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" name="username" class="form-control form-control-lg"
+                            <input type="text" name="username" class="form-control form-control-lg"
                                 placeholder="Enter a valid email address or username" value="{{ old('username') }}"
                                 required="required" autofocus />
                             @if ($errors->has('username'))
