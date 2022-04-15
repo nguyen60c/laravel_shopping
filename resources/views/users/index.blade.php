@@ -24,9 +24,10 @@
                 </tr>
             </thead>
             <tbody>
+            <?php $index = 0 ?>
                 @foreach ($users as $user)
                     <tr>
-                        <th scope="row">{{ $user->id }}</th>
+                        <th scope="row">{{ ++$index }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->username }}</td>

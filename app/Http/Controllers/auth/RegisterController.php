@@ -12,7 +12,7 @@ class RegisterController extends Controller
 {
     /**
      * Display register page.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function show()
@@ -22,17 +22,22 @@ class RegisterController extends Controller
 
     /**
      * Handle account registration request
-     * 
+     *
      * @param RegisterRequest $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function register(RegisterRequest $request)
     {
         $user = new User();
-        // ddd(request()->all());
+//        ddd("lines 33");
         if ($request->validated()) {
+//            ddd($request->validated());
+            /*
+             * User uploaded image
+             */
             if ($request->has("avatar")) {
+                ddd("debugs");
                 $image = $request->file("avatar");
                 $reImage = time() . "." . $image->getClientOriginalExtension();
                 $dest = public_path("\imgs");
@@ -41,14 +46,17 @@ class RegisterController extends Controller
                 $user->avatar = $reImage;
                 $user->email = $request->email;
                 $user->name = $request->name;
+                $user->username = $request->username;
                 $user->password = $request->password;
                 $user->username = $request->username;
                 $user->save();
             } else {
+                /*
+               * User didn't upload image
+               */
                 $user = User::create($request->validated());
             }
         }
-
         $user->assignRole("user");
 
         auth()->login($user);

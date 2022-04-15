@@ -71,7 +71,19 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 
             Route::get("/products", "products\ProductsController@showProducts")->name("products.showProducts");
             Route::get("/{product}/buy","products\ProductsController@showDetailsProduct")->name("product.details");
-            Route::post("/{product}/buy", "products\ProductsController@buyProducts")->name("products.buy");
+//            Route::post("/{product}/buy", "products\ProductsController@buyProducts")->name("products.buy");
+            Route::get("/product", [\App\Http\Controllers\products\ProductsController::class,"compareAmountInput"]);
+        });
+
+        /*
+         * Cart routes
+         */
+        Route::group(["prefix"=>"cart"],function(){
+            Route::get("cart",[\App\Http\Controllers\Carts\CartController::class,"index"])->name("cart.index");
+            Route::post("cart",[\App\Http\Controllers\Carts\CartController::class,"store"])->name("cart.store");
+            Route::post("cart/update",[\App\Http\Controllers\Carts\CartController::class,"update"])->name("cart.update");
+            Route::post("cart/remove",[\App\Http\Controllers\Carts\CartController::class,"destroy"])->name("cart.destroy");
+            Route::post("cart/clear",[\App\Http\Controllers\Carts\CartController::class,"clear"])->name("cart.clear");
         });
 
         Route::resource('roles', spatie\RolesController::class);
