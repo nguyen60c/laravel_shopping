@@ -1,5 +1,5 @@
 @extends('layouts.app-master')
-
+@section("title","List roles")
 @section('content')
 
     <div class="bg-light p-4 rounded">
@@ -19,9 +19,10 @@
                 <th>Name</th>
                 <th width="3%" colspan="3">Action</th>
             </tr>
+            <?php $index = 0 ?>
             @foreach ($roles as $key => $role)
                 <tr>
-                    <td>{{ $role->id }}</td>
+                    <td>{{ ++$index }}</td>
                     <td>{{ $role->name }}</td>
                     <td>
                         <a class="btn btn-info btn-sm" href="{{ route('roles.show', $role->id) }}">Show</a>

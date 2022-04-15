@@ -1,5 +1,5 @@
 @extends('layouts.app-master')
-
+@section("title","Update permission")
 @section('content')
     <div class="bg-light p-4 rounded">
         <h2>Edit permission</h2>

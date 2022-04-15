@@ -1,5 +1,5 @@
 @extends('layouts.app-master')
-
+@section("title","Product")
 @section('content')
     <div class="bg-light p-4 rounded">
         <h2>Show product</h2>
@@ -15,7 +15,7 @@
                 Description: {{ $product->description }}
             </div>
             <div>
-                Price: {{ $product->price }}
+                Price: {{ number_format($product->price) }}
             </div>
             <div>
                 Quantity: {{ $product->quantity }}

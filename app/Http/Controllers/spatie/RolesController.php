@@ -18,6 +18,7 @@ class RolesController extends Controller
      */
     function __construct()
     {
+
     }
 
     /**
@@ -27,7 +28,7 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id')->paginate(5);
+        $roles = Role::orderBy('id', 'DESC')->paginate(5);
         return view('roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -46,7 +47,7 @@ class RolesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -57,6 +58,10 @@ class RolesController extends Controller
         ]);
 
         $role = Role::create(['name' => $request->get('name')]);
+        /*
+         * $request->get('permission'): get element "permission" of request
+         *A role can have so many permissions
+         */
         $role->syncPermissions($request->get('permission'));
 
         return redirect()->route('roles.index')
@@ -66,7 +71,7 @@ class RolesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
@@ -80,12 +85,14 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role)
     {
         $role = $role;
+        // Get collection of permissions that assigned to the roles
+        //pluck("name"): return turn only permission names
         $rolePermissions = $role->permissions->pluck('name')->toArray();
         $permissions = Permission::get();
 
@@ -95,8 +102,8 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Role $role, Request $request)
@@ -117,7 +124,7 @@ class RolesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
