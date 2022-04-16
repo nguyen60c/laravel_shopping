@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Carts;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\carts\CartRequest;
+use App\Models\Product;
 use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
 
@@ -15,25 +17,26 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartItems = Cart::getContent();
-        return view("cart", compact("cartItems"));
+        $cartItems = \Cart::getContent();
+        return view("carts.cart", compact("cartItems"));
     }
 
     /*
      * add cart
      */
-    public function store(Request $request)
+    public function store(CartRequest $request)
     {
-        Cart::add([
-            "id" => $request->id,
-            "name" => $request->title,
-            "price" => $request->price,
-            "description" => $request->description,
-            "quantity" => $request->quantity,
-            "attributes" => array(
-                "img" => $request->img_product
-            ),
-        ]);
+//        \Cart::add([
+//            "id" => $request->id,
+//            "name" => $request->title,
+//            "price" => $request->price,
+//            "description" => $request->description,
+//            "quantity" => $request->quantity,
+//            "attributes" => array(
+//                "img" => $request->img_product
+//            ),
+//        ],$request->validated());
+        \Cart::add($request->validated());
         session()->flash("success", "Product is Added to Cart Successfully !");
 
         return redirect()->route("cart.index");
@@ -44,7 +47,7 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
-        Cart::update(
+        \Cart::update(
             $request->id,
             [
                 "relative" => false,
@@ -56,7 +59,7 @@ class CartController extends Controller
     }
 
     public function clearAllCart(){
-        Cart::clear();
+        \Cart::clear();
 
         session()->flash('success', 'All Item Cart Clear Successfully !');
 

@@ -73,6 +73,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
             Route::get("/{product}/buy","products\ProductsController@showDetailsProduct")->name("product.details");
 //            Route::post("/{product}/buy", "products\ProductsController@buyProducts")->name("products.buy");
             Route::get("/product", [\App\Http\Controllers\products\ProductsController::class,"compareAmountInput"]);
+
+            Route::post("/products",[\App\Http\Controllers\Carts\CartController::class,"store"])->name("cart.addToCart");
         });
 
         /*

@@ -8,31 +8,33 @@
         <div class="row">
             @foreach ($products as $product)
                 <div class="col-md-3">
-                    <div class="ibox">
-                        <div class="ibox-content product-box">
-                            <div class="product-imitation">
-
-                                <img src="{{URL::to("imgs/products/$product->img_product")}}">
-                            </div>
-                            <div class="product-desc">
-                                        <span class="product-price">
-                                            {{number_format($product->price)}} VND
-                                        </span>
-                                <small class="text-muted">Category</small>
-                                <div class="product-name"> {{$product->title}}</div>
-
-                                <div class="small m-t-xs">
-                                    {{$product->description}}
+                    <form action="{{route("cart.addToCart")}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="ibox">
+                            <div class="ibox-content product-box">
+                                <div class="product-imitation">
+                                    <img src="{{URL::to("imgs/products/$product->img_product")}}">
+                                    <input type="hidden" class="input_img" name="id" value="{{$product->id}}"/>
+                                    <input type="hidden" class="input_img" name="quantity" value="{{$product->quantity}}"/>
+                                    <input type="hidden" class="input_img" name="img" value="{{$product->img_product}}"/>
                                 </div>
-                                <div class="m-t text-righ">
+                                <div class="product-desc">
+                                        <input class="product-price transparent-input"
+                                            value = "{{number_format($product->price)}} VND" name="price" readonly/>
+                                    <small class="text-muted">Category</small>
+                                    <input class="product-name" value="{{$product->title}}" readonly name="name"/>
 
-                                    <a href="{{ route('product.details', $product) }}"
-                                       class="btn btn-xs btn-outline btn-primary mt-3">Details
-                                        <i class="fa fa-long-arrow-right"></i> </a>
+                                    <input class="small m-t-xs" value=" {{$product->description}}" name="description">
+                                    <div class="m-t text-righ">
+                                        <a href="{{ route('product.details', $product) }}"
+                                           class="btn btn-xs btn-outline btn-primary mt-3">Details
+                                            <i class="fa fa-long-arrow-right"></i> </a>
+                                        <button class="px-4 py-2 text-white btn-primary bg-blue-800 rounded mt-3">Add To Cart</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             @endforeach
         </div>
@@ -48,8 +50,18 @@
 @section("style")
     <style>
         body {
+            outline: none;
             margin-top: 20px;
             background: #eee;
+        }
+
+        input{
+            outline: none;
+            border: none;
+        }
+
+        input.product-price{
+            max-width: 150px;
         }
 
         /* E-commerce */
@@ -73,7 +85,7 @@
             font-weight: 600;
         }
 
-        .product-imitation img{
+        .product-imitation img {
             max-width: 200px;
         }
 
