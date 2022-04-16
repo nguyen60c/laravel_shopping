@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     /**
      * Display login page.
-     * 
+     *
      * @return Renderable
      */
     public function show()
@@ -21,19 +21,19 @@ class LoginController extends Controller
 
     /**
      * Handle account login request
-     * 
+     *
      * @param LoginRequest $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
 
-        if (!Auth::validate($credentials)) :
+        if (!Auth::validate($credentials)){
             return redirect()->to('login')
-            ->withErrors(trans('auth.failed'));
-        endif;
+                ->withErrors(trans('auth.failed'));
+        }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
@@ -44,10 +44,10 @@ class LoginController extends Controller
 
     /**
      * Handle response after user authenticated
-     * 
+     *
      * @param Request $request
      * @param Auth $user
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     protected function authenticated(Request $request, $user)
